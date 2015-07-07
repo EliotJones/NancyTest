@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
+
 
     /// <summary>
     /// Helper class for providing application registrations
@@ -116,7 +118,7 @@
         {
             var implementation = AppDomainAssemblyTypeScanner
                 .TypesOf<TRegistration>()
-                .Where(type => type.Assembly != this.GetType().Assembly)
+                .Where(type => type.GetTypeInfo().Assembly != this.GetType().GetTypeInfo().Assembly)
                 .SingleOrDefault(type => type != defaultImplementation);
 
             this.typeRegistrations.Add(new TypeRegistration(typeof(TRegistration), implementation ?? defaultImplementation, lifetime));
@@ -134,7 +136,7 @@
         {
             var implementation = AppDomainAssemblyTypeScanner
                 .TypesOf<TRegistration>()
-                .SingleOrDefault(type => type.Assembly != this.GetType().Assembly);
+                .SingleOrDefault(type => type.GetTypeInfo().Assembly != this.GetType().GetTypeInfo().Assembly);
 
             if (implementation != null)
             {
@@ -161,7 +163,7 @@
         {
             var implementations = AppDomainAssemblyTypeScanner
                 .TypesOf<TRegistration>()
-                .Where(type => type.Assembly != this.GetType().Assembly)
+                .Where(type => type.GetTypeInfo().Assembly != this.GetType().GetTypeInfo().Assembly)
                 .Where(type => !defaultImplementations.Contains(type))
                 .ToList();
 
@@ -188,7 +190,7 @@
         {
             var implementations = AppDomainAssemblyTypeScanner
                 .TypesOf<TRegistration>()
-                .Where(type => type.Assembly != this.GetType().Assembly)
+                .Where(type => type.GetTypeInfo().Assembly != this.GetType().GetTypeInfo().Assembly)
                 .Where(type => !defaultImplementations.Contains(type))
                 .ToList();
 

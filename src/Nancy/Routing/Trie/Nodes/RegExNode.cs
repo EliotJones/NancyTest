@@ -54,7 +54,7 @@ namespace Nancy.Routing.Trie.Nodes
 
         private void BuildRegEx()
         {
-            this.expression = new Regex(this.RouteDefinitionSegment, RegexOptions.Compiled);
+            this.expression = new Regex(this.RouteDefinitionSegment, RegexOptions.None);
             this.groupNames = this.expression.GetGroupNames();
         }
     }

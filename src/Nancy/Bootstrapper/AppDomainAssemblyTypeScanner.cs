@@ -21,7 +21,7 @@ namespace Nancy.Bootstrapper
         /// <summary>
         /// Nancy core assembly
         /// </summary>
-        private static Assembly nancyAssembly = typeof(NancyEngine).Assembly;
+        private static Assembly nancyAssembly = typeof(NancyEngine).GetTypeInfo().Assembly;
 
         /// <summary>
         /// App domain type cache
@@ -172,7 +172,7 @@ namespace Nancy.Bootstrapper
 
             var unloadedAssemblies =
                 Directory.GetFiles(containingDirectory, wildcardFilename).Where(
-                    f => !existingAssemblyPaths.Contains(f, StringComparer.InvariantCultureIgnoreCase)).ToArray();
+                    f => !existingAssemblyPaths.Contains(f, StringComparer.OrdinalIgnoreCase)).ToArray();
 
 
             foreach (var unloadedAssembly in unloadedAssemblies)
@@ -193,7 +193,7 @@ namespace Nancy.Bootstrapper
 
             types = (from assembly in assemblies
                      from type in assembly.SafeGetExportedTypes()
-                     where !type.IsAbstract
+                     where !type.IsAbstract()
                      select type).ToArray();
         }
 
@@ -228,7 +228,7 @@ namespace Nancy.Bootstrapper
             {
                 var unloadedAssemblies = Directory
                     .GetFiles(directory, "*.dll")
-                    .Where(f => !existingAssemblyPaths.Contains(f, StringComparer.InvariantCultureIgnoreCase)).ToArray();
+                    .Where(f => !existingAssemblyPaths.Contains(f, StringComparer.OrdinalIgnoreCase)).ToArray();
 
                 foreach (var unloadedAssembly in unloadedAssemblies)
                 {
@@ -285,9 +285,9 @@ namespace Nancy.Bootstrapper
             switch (mode)
             {
                 case ScanMode.OnlyNancy:
-                    return returnTypes.Where(t => t.Assembly == nancyAssembly);
+                    return returnTypes.Where(t => t.Assembly() == nancyAssembly);
                 case ScanMode.ExcludeNancy:
-                    return returnTypes.Where(t => t.Assembly != nancyAssembly);
+                    return returnTypes.Where(t => t.Assembly() != nancyAssembly);
                 case ScanMode.OnlyNancyNamespace:
                     return returnTypes.Where(t => t.Namespace.StartsWith("Nancy"));
                 case ScanMode.ExcludeNancyNamespace:

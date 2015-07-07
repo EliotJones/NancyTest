@@ -18,6 +18,7 @@ namespace Nancy.Diagnostics
     using Nancy.Routing;
     using Nancy.Routing.Constraints;
     using Nancy.Routing.Trie;
+    using System.Reflection;
 
     public static class DiagnosticsHook
     {
@@ -91,7 +92,7 @@ namespace Nancy.Diagnostics
                             }
 
                             return new EmbeddedFileResponse(
-                                typeof(DiagnosticsHook).Assembly,
+                                typeof(DiagnosticsHook).GetTypeInfo().Assembly,
                                 resourceNamespace,
                                 Path.GetFileName(ctx.Request.Url.Path));
                         }

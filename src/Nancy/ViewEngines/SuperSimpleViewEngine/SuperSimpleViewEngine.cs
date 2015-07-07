@@ -17,62 +17,62 @@ namespace Nancy.ViewEngines.SuperSimpleViewEngine
         /// <summary>
         /// Compiled Regex for viewbag substitutions
         /// </summary>
-        private static readonly Regex ViewBagSubstitutionsRegEx = new Regex(@"@(?<Encode>!)?ViewBag(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))*;?", RegexOptions.Compiled);
+        private static readonly Regex ViewBagSubstitutionsRegEx = new Regex(@"@(?<Encode>!)?ViewBag(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))*;?", RegexOptions.None);
 
         /// <summary>
         /// Compiled Regex for single substitutions
         /// </summary>
-        private static readonly Regex SingleSubstitutionsRegEx = new Regex(@"@(?<Encode>!)?Model(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))*;?", RegexOptions.Compiled);
+        private static readonly Regex SingleSubstitutionsRegEx = new Regex(@"@(?<Encode>!)?Model(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))*;?", RegexOptions.None);
 
         /// <summary>
         /// Compiled Regex for context subsituations
         /// </summary>
-        private static readonly Regex ContextSubstitutionsRegEx = new Regex(@"@(?<Encode>!)?Context(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))*;?", RegexOptions.Compiled);
+        private static readonly Regex ContextSubstitutionsRegEx = new Regex(@"@(?<Encode>!)?Context(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))*;?", RegexOptions.None);
 
         /// <summary>
         /// Compiled Regex for each blocks
         /// </summary>
-        private static readonly Regex EachSubstitutionRegEx = new Regex(@"@Each(?:\.(?<ModelSource>(Model|Context)+))?(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))*;?(?<Contents>.*?)@EndEach;?", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static readonly Regex EachSubstitutionRegEx = new Regex(@"@Each(?:\.(?<ModelSource>(Model|Context)+))?(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))*;?(?<Contents>.*?)@EndEach;?", RegexOptions.None | RegexOptions.Singleline);
 
         /// <summary>
         /// Compiled Regex for each block current substitutions
         /// </summary>
-        private static readonly Regex EachItemSubstitutionRegEx = new Regex(@"@(?<Encode>!)?Current(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))*;?", RegexOptions.Compiled);
+        private static readonly Regex EachItemSubstitutionRegEx = new Regex(@"@(?<Encode>!)?Current(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))*;?", RegexOptions.None);
 
         /// <summary>
         /// Compiled Regex for if blocks
         /// </summary>
-        private static readonly Regex ConditionalSubstitutionRegEx = new Regex(@"@If(?<Not>Not)?(?<Null>Null)?(?:\.(?<ModelSource>(Model|Context)+))?(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))+;?(?<Contents>.*?)@EndIf;?", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static readonly Regex ConditionalSubstitutionRegEx = new Regex(@"@If(?<Not>Not)?(?<Null>Null)?(?:\.(?<ModelSource>(Model|Context)+))?(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))+;?(?<Contents>.*?)@EndIf;?", RegexOptions.None | RegexOptions.Singleline);
 
         /// <summary>
         /// Compiled regex for partial blocks
         /// </summary>
-        private static readonly Regex PartialSubstitutionRegEx = new Regex(@"@Partial\['(?<ViewName>[^\]]+)'(?:.[ ]?@?(?<Model>(Model|Current)(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))*))?\];?", RegexOptions.Compiled);
+        private static readonly Regex PartialSubstitutionRegEx = new Regex(@"@Partial\['(?<ViewName>[^\]]+)'(?:.[ ]?@?(?<Model>(Model|Current)(?:\.(?<ParameterName>[a-zA-Z0-9-_]+))*))?\];?", RegexOptions.None);
 
         /// <summary>
         /// Compiled RegEx for section block declarations
         /// </summary>
-        private static readonly Regex SectionDeclarationRegEx = new Regex(@"@Section\[\'(?<SectionName>.+?)\'\];?", RegexOptions.Compiled);
+        private static readonly Regex SectionDeclarationRegEx = new Regex(@"@Section\[\'(?<SectionName>.+?)\'\];?", RegexOptions.None);
 
         /// <summary>
         /// Compiled RegEx for section block contents
         /// </summary>
-        private static readonly Regex SectionContentsRegEx = new Regex(@"(?:@Section\[\'(?<SectionName>.+?)\'\];?(?<SectionContents>.*?)@EndSection;?)", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static readonly Regex SectionContentsRegEx = new Regex(@"(?:@Section\[\'(?<SectionName>.+?)\'\];?(?<SectionContents>.*?)@EndSection;?)", RegexOptions.None | RegexOptions.Singleline);
 
         /// <summary>
         /// Compiled RegEx for master page declaration
         /// </summary>
-        private static readonly Regex MasterPageHeaderRegEx = new Regex(@"^(?:@Master\[\'(?<MasterPage>.+?)\'\]);?", RegexOptions.Compiled);
+        private static readonly Regex MasterPageHeaderRegEx = new Regex(@"^(?:@Master\[\'(?<MasterPage>.+?)\'\]);?", RegexOptions.None);
 
         /// <summary>
         /// Compiled RegEx for path expansion
         /// </summary>
-        private static readonly Regex PathExpansionRegEx = new Regex(@"(?:@Path\[\'(?<Path>.+?)\'\]);?", RegexOptions.Compiled);
+        private static readonly Regex PathExpansionRegEx = new Regex(@"(?:@Path\[\'(?<Path>.+?)\'\]);?", RegexOptions.None);
 
         /// <summary>
         /// Compiled RegEx for the CSRF anti forgery token
         /// </summary>
-        private static readonly Regex AntiForgeryTokenRegEx = new Regex(@"@AntiForgeryToken;?", RegexOptions.Compiled);
+        private static readonly Regex AntiForgeryTokenRegEx = new Regex(@"@AntiForgeryToken;?", RegexOptions.None);
 
         /// <summary>
         /// View engine transform processors
@@ -182,7 +182,7 @@ namespace Nancy.ViewEngines.SuperSimpleViewEngine
             var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
 
             var property =
-                properties.Where(p => string.Equals(p.Name, propertyName, StringComparison.InvariantCulture)).
+                properties.Where(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase)).
                 FirstOrDefault();
 
             if (property != null)
@@ -193,7 +193,7 @@ namespace Nancy.ViewEngines.SuperSimpleViewEngine
             var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
 
             var field = 
-                fields.Where(p => string.Equals(p.Name, propertyName, StringComparison.InvariantCulture)).
+                fields.Where(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase)).
                 FirstOrDefault();
 
             return field == null ? new Tuple<bool, object>(false, null) : new Tuple<bool, object>(true, field.GetValue(model));

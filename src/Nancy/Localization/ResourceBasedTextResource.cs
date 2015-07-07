@@ -82,7 +82,7 @@ namespace Nancy.Localization
         private static Tuple<string, string> GetKeyComponents(string key)
         {
             var index =
-                key.LastIndexOf(".", StringComparison.InvariantCulture);
+                key.LastIndexOf(".", StringComparison.OrdinalIgnoreCase);
 
             if (index == -1)
             {

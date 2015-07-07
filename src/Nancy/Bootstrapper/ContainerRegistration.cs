@@ -34,7 +34,7 @@ namespace Nancy.Bootstrapper
             }
 
             var incompatibleTypes =
-                types.Where(type => !this.RegistrationType.IsAssignableFrom(type) && !type.IsAssignableToGenericType(this.RegistrationType)).ToArray();
+                types.Where(type => !this.RegistrationType.is.IsAssignableFrom(type) && !type.IsAssignableToGenericType(this.RegistrationType)).ToArray();
 
             if (incompatibleTypes.Any())
             {

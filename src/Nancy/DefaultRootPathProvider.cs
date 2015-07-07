@@ -1,9 +1,7 @@
 ﻿namespace Nancy
 {
-#if DNX451
     using Microsoft.Framework.Runtime;
     using Microsoft.Framework.Runtime.Infrastructure;
-#endif
 
     /// <summary>
     /// Default implementation of <see cref="IRootPathProvider"/>.
@@ -26,9 +24,10 @@
         public string GetRootPath()
         {
 #if DNX451
-            return env.ApplicationBasePath;
-#else
             return AppDomain.CurrentDomain.BaseDirectory;
+            
+#else
+            return env.ApplicationBasePath;
 #endif
         }
     }

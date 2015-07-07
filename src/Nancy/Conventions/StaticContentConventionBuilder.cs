@@ -15,7 +15,7 @@ namespace Nancy.Conventions
     public class StaticContentConventionBuilder
     {
         private static readonly ConcurrentDictionary<ResponseFactoryCacheKey, Func<NancyContext, Response>> ResponseFactoryCache;
-        private static readonly Regex PathReplaceRegex = new Regex(@"[/\\]", RegexOptions.Compiled);
+        private static readonly Regex PathReplaceRegex = new Regex(@"[/\\]", RegexOptions.None);
 
         static StaticContentConventionBuilder()
         {

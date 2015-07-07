@@ -25,8 +25,8 @@ namespace Nancy.ModelBinding
 
         private readonly static MethodInfo toListMethodInfo = typeof(Enumerable).GetMethod("ToList", BindingFlags.Public | BindingFlags.Static);
         private readonly static MethodInfo toArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
-        private static readonly Regex bracketRegex = new Regex(@"\[(\d+)\]\z", RegexOptions.Compiled);
-        private static readonly Regex underscoreRegex = new Regex(@"_(\d+)\z", RegexOptions.Compiled);
+        private static readonly Regex bracketRegex = new Regex(@"\[(\d+)\]\z", RegexOptions.None);
+        private static readonly Regex underscoreRegex = new Regex(@"_(\d+)\z", RegexOptions.None);
 
         public DefaultBinder(IEnumerable<ITypeConverter> typeConverters, IEnumerable<IBodyDeserializer> bodyDeserializers, IFieldNameConverter fieldNameConverter, BindingDefaults defaults)
         {
@@ -399,7 +399,7 @@ namespace Nancy.ModelBinding
 
         private static IEnumerable<BindingMemberInfo> GetBindingMembers(Type modelType, Type genericType, IEnumerable<string> blackList)
         {
-            var blackListHash = new HashSet<string>(blackList, StringComparer.InvariantCulture);
+            var blackListHash = new HashSet<string>(blackList, StringComparer.OrdinalIgnoreCase);
 
             return BindingMemberInfo.Collect(genericType ?? modelType)
                 .Where(member => !blackListHash.Contains(member.Name));

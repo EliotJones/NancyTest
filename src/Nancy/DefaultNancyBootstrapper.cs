@@ -20,21 +20,21 @@
         /// </summary>
         public static IEnumerable<Func<Assembly, bool>> DefaultAutoRegisterIgnoredAssemblies = new Func<Assembly, bool>[]
             {
-                asm => asm.FullName.StartsWith("Microsoft.", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("System.", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("System,", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("CR_ExtUnitTest", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("mscorlib,", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("CR_VSTest", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("DevExpress.CodeRush", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("IronPython", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("IronRuby", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("xunit", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("Nancy.Testing", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("MonoDevelop.NUnit", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("SMDiagnostics", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("CppCodeProvider", StringComparison.InvariantCulture),
-                asm => asm.FullName.StartsWith("WebDev.WebHost40", StringComparison.InvariantCulture),
+                asm => asm.FullName.StartsWith("Microsoft.", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("System.", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("System,", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("CR_ExtUnitTest", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("mscorlib,", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("CR_VSTest", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("DevExpress.CodeRush", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("IronPython", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("IronRuby", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("xunit", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("Nancy.Testing", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("MonoDevelop.NUnit", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("SMDiagnostics", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("CppCodeProvider", StringComparison.OrdinalIgnoreCase),
+                asm => asm.FullName.StartsWith("WebDev.WebHost40", StringComparison.OrdinalIgnoreCase),
             };
 
         /// <summary>
@@ -250,7 +250,7 @@
         /// <param name="container">Container instance</param>
         private static void AutoRegister(TinyIoCContainer container, IEnumerable<Func<Assembly, bool>> ignoredAssemblies)
         {
-            var assembly = typeof(NancyEngine).Assembly;
+            var assembly = typeof(NancyEngine).GetTypeInfo().Assembly;
 
             container.AutoRegister(AppDomain.CurrentDomain.GetAssemblies().Where(a => !ignoredAssemblies.Any(ia => ia(a))), DuplicateImplementationActions.RegisterMultiple, t => t.Assembly != assembly);
         }

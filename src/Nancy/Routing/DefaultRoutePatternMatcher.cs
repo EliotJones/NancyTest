@@ -69,7 +69,7 @@
                 string.Concat(@"^", parsedSegments, @"$");
 
             return new Tuple<Regex, IEnumerable<ParameterSegmentInformation>>(
-                new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                new Regex(pattern, RegexOptions.None | RegexOptions.IgnoreCase),
                 parameterizedSegments.Item2);
         }
 

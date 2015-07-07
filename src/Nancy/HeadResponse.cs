@@ -3,11 +3,14 @@
     using System;
     using System.Globalization;
     using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
+
 
     /// <summary>
     /// Represents a HEAD only response.
     /// </summary>
-	public class HeadResponse : Response
+    public class HeadResponse : Response
 	{
         private const string ContentLength = "Content-Length";
 
@@ -50,12 +53,7 @@
             {
             }
 
-            public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
-            {
-                throw new NotSupportedException();
-            }
-
-            public override int EndRead(IAsyncResult asyncResult)
+            public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
             {
                 throw new NotSupportedException();
             }

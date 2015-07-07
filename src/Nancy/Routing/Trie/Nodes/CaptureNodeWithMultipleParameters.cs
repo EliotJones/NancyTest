@@ -9,7 +9,7 @@
     /// </summary>
     public class CaptureNodeWithMultipleParameters : TrieNode
     {
-        private static readonly Regex MatchRegex = new Regex(@"({?[^{}]*}?)", RegexOptions.Compiled);
+        private static readonly Regex MatchRegex = new Regex(@"({?[^{}]*}?)", RegexOptions.None);
 
         private readonly List<string> parameterNames = new List<string>();
 

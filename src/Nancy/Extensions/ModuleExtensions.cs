@@ -17,7 +17,7 @@ namespace Nancy.Extensions
         /// <value>A <see cref="Regex"/> object.</value>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private static readonly Regex ModuleNameExpression =
-            new Regex(@"(?<name>[\w]+)Module$", RegexOptions.Compiled);
+            new Regex(@"(?<name>[\w]+)Module$", RegexOptions.None);
 
         /// <summary>
         /// Extracts the friendly name of a Nancy module given its type.
